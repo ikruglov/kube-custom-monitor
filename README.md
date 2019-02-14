@@ -1,6 +1,8 @@
 # kube-custom-monitor
 kube-custom-monitor - a set of useful Prometheus metrics for a kubernetes cluster
 
+** This project is in a very early state, but it might already be useful.**
+
 ### Leader
 
 Kubernetes setup
