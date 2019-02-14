@@ -62,5 +62,4 @@ $ curl -q http://localhost:8082/metrics
 ```
 
 ## Acknowledgement
-* Idea and initial implementation is by @sparky
 * This module was originally developed for Booking.com.
