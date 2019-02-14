@@ -1,11 +1,11 @@
 # kube-custom-monitor
-kube-custom-monitor - a set of useful metrics for a kubernetes cluster:
+kube-custom-monitor - a set of useful Prometheus metrics for a kubernetes cluster
 
 ### Leader
 
 Kubernetes setup
 
-This monitor outputs two prometheus metrics `leader_monitor_is_leader` and
+This monitor outputs two Prometheus metrics `leader_monitor_is_leader` and
 `leader_monitor_leader_transitions` which reflect an active leader for
 `kube-scheduler`, `kube-controller-manager` and other kubernetes controllers
 which uses the same [leader election
@@ -25,16 +25,18 @@ the images and minus time it took to run init-containers.
 
 This module is heavily inspired by
 [slo-monitor](https://github.com/kubernetes/perf-tests/tree/master/slo-monitor).
-However, they differently understand the startup time. For `slo-monitor` the
-startup time includes init-containers and readiness probes. In production
-environment, this two values can be modified by cluster's users and such
-modifications can heavily skew cluster's SLO.
+However, they differently understand startup time. For slo-monitor, the startup
+time includes init-containers and readiness probes. In a production
+environment, these two values can be modified by cluster's users, and such
+modifications can heavily skew the cluster's SLO.
 
 ### POD
 
-One of the disadvantages of [kube-state-metrics](https://github.com/kubernetes/kube-state-metrics)
-is that the set of metrics it reports often hard to correlate with the POD's
-state which `kubectl get pods` outputs.
+One of the disadvantages of
+[kube-state-metrics](https://github.com/kubernetes/kube-state-metrics) is that
+the set of metrics it often reports hard to correlate with the POD's state
+which `kubectl get pods` outputs.
+
 
 ```
 $ kubectl get pods
@@ -42,7 +44,7 @@ NAME                             READY     STATUS    RESTARTS   AGE
 api-f13f3c93-0-b469c776c-x8b25   1/1       Running   8          8d
 ```
 
-This monitors scans API server and compute a single metric `kube_pod_status`
+This monitor reads the API server and computes a single metric `kube_pod_status`
 which value matches the status of a POD as how `kubectl` would show it.
 
 ## Build and use
@@ -51,7 +53,6 @@ which value matches the status of a POD as how `kubectl` would show it.
 $ https://github.com/ikruglov/kube-custom-monitor.git
 $ cd kube-custom-monitor
 $ go build -v
-$ ./kube-custom-monitor -v 1 -log
 $ ./kube-custom-monitor -kubeconfig kubeconfig -logtostderr -v 1
 
 # in parallel terminal
