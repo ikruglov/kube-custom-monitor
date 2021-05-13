@@ -14,7 +14,16 @@ import (
 	"k8s.io/apimachinery/pkg/util/wait"
 	core_v1 "k8s.io/client-go/informers/core/v1"
 	"k8s.io/client-go/tools/cache"
-	"k8s.io/kubernetes/pkg/kubelet/events"
+)
+
+const (
+	// source https://pkg.go.dev/k8s.io/kubernetes/pkg/kubelet/events
+	PullingImage            = "Pulling"
+	PulledImage             = "Pulled"
+	FailedToPullImage       = "Failed"
+	FailedToInspectImage    = "InspectFailed"
+	ErrImageNeverPullPolicy = "ErrImageNeverPull"
+	BackOffPullImage        = "BackOff"
 )
 
 var (
@@ -171,13 +180,13 @@ func (pm *podStartupLatencyDataMonitor) handleEvent(event *api_v1.Event) {
 	}
 
 	switch event.Reason {
-	case events.PullingImage:
+	case PullingImage:
 		go func() {
 			if err := pm.handlePullingImageEvent(event); err != nil {
 				glog.Warningf("failed to process 'PullingImage' event: %v", err)
 			}
 		}()
-	case events.PulledImage:
+	case PulledImage:
 		go func() {
 			if err := pm.handlePulledImageEvent(event); err != nil {
 				glog.Warningf("failed to process 'PulledImage' event: %v", err)
